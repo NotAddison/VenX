@@ -17,10 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VenX',
-      debugShowCheckedModeBanner: false,
-      theme: defaultTheme,
-      home: Home(),
-    );
+        title: 'VenX',
+        debugShowCheckedModeBanner: false,
+        theme: defaultTheme,
+        home: const Home(),
+        routes: <String, WidgetBuilder>{
+          '': (BuildContext context) => const Home(),
+        });
   }
 }
