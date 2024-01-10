@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 
 // Widgets
 import '../widgets/navbar.dart';
+import '../utils/permissions.dart';
 
-// Map Lib
+// Map Lib + Tiles
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-
-// Tile Providers
 import '../utils/tile_providers.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  @override
   Widget build(BuildContext context) {
+    // Check for location permission
+    checkLocationPermission();
+
+    // Main Scaffold
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: const NavBar(),
