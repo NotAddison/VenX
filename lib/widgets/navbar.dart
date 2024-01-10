@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:page_transition/page_transition.dart';
+
+// Pages
+import '../screens/home.dart';
+import '../screens/community.dart';
+import '../screens/machine.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -15,6 +21,37 @@ class _NavbarState extends State<NavBar> with TickerProviderStateMixin {
   void _handleIndexChanged(int i) {
     setState(() {
       _selectedTab = _SelectedTab.values[i];
+
+      // Handle navigation here (/w page transitions)
+      switch (_selectedTab) {
+        case _SelectedTab.social:
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              child: const Community(),
+            ),
+          );
+          break;
+        case _SelectedTab.home:
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              child: const Home(),
+            ),
+          );
+          break;
+        case _SelectedTab.saves:
+          Navigator.push(
+            context,
+            PageTransition(
+              type: PageTransitionType.fade,
+              child: const MachineView(),
+            ),
+          );
+          break;
+      }
     });
   }
 
@@ -27,36 +64,32 @@ class _NavbarState extends State<NavBar> with TickerProviderStateMixin {
     );
     return DotNavigationBar(
       currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-
-      // Hide dot
-      dotIndicatorColor: Colors.transparent,
-
       onTap: _handleIndexChanged,
+
+      // Styling
+      borderRadius: 15,
+      dotIndicatorColor: Colors.transparent,
       itemPadding: const EdgeInsets.all(16),
-      marginR: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+      marginR: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       paddingR: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+
+      // Navigation Buttons
       items: [
-        /// Home
-        DotNavigationBarItem(
-          icon: const Icon(Icons.home),
-          selectedColor: _selectedColor,
-        ),
-
-        /// Search
-        DotNavigationBarItem(
-          icon: const Icon(Icons.search),
-          selectedColor: _selectedColor,
-        ),
-
         // Social media blog
         DotNavigationBarItem(
-          icon: const Icon(Icons.article_outlined),
+          icon: const Icon(Icons.message_outlined),
           selectedColor: _selectedColor,
         ),
 
-        /// Profile
+        // Map (Home)
         DotNavigationBarItem(
-          icon: const Icon(Icons.settings_outlined),
+          icon: const Icon(Icons.map_outlined),
+          selectedColor: _selectedColor,
+        ),
+
+        // Saves
+        DotNavigationBarItem(
+          icon: const Icon(Icons.bookmark_border_rounded),
           selectedColor: _selectedColor,
         ),
       ],
@@ -64,4 +97,4 @@ class _NavbarState extends State<NavBar> with TickerProviderStateMixin {
   }
 }
 
-enum _SelectedTab { home, favorite, search, person }
+enum _SelectedTab { social, home, saves }
