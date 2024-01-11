@@ -18,7 +18,5 @@ Future<bool> checkLocationPermission() async {
       return false;
     }
   }
-
-  print("PERMISSION GRANTED");
-  return false;
+  return true;
 }
