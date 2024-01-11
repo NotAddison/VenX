@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 // Widgets
-import '../widgets/navbar.dart';
 import '../utils/permissions.dart';
 
 // Map Lib + Tiles
@@ -20,7 +19,6 @@ class Home extends StatelessWidget {
     // Main Scaffold
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: const NavBar(),
       body: Stack(
         children: [
           FlutterMap(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Screens
-import 'screens/home.dart';
+import './widgets/main_base.dart';
 
 // Utils
 import 'utils/themes.dart';
@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
         title: 'VenX',
         debugShowCheckedModeBanner: false,
         theme: defaultTheme,
-        home: const Home(),
+        home: const MainScaffold(),
         routes: <String, WidgetBuilder>{
-          '': (BuildContext context) => const Home(),
+          '': (BuildContext context) => const MainScaffold(),
         });
   }
 }

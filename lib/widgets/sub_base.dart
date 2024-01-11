@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import './navbar.dart';
+import 'main_base.dart';
 
 // Custom widget (params = more child objs)
 
@@ -10,6 +10,7 @@ class Base extends StatelessWidget {
   final String title;
   final bool showNavBar;
   final bool showAppBar;
+  final bool showReturnButton;
 
   const Base({
     super.key,
@@ -17,6 +18,7 @@ class Base extends StatelessWidget {
     this.title = 'VenX',
     this.showNavBar = true,
     this.showAppBar = true,
+    this.showReturnButton = false,
   });
 
   @override
@@ -26,14 +28,15 @@ class Base extends StatelessWidget {
           ? AppBar(
               title: Text(title),
               centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(CupertinoIcons.back),
-                onPressed: () => {Navigator.pop(context)},
-              ),
+              leading: showReturnButton
+                  ? IconButton(
+                      icon: const Icon(CupertinoIcons.back),
+                      onPressed: () => {Navigator.pop(context)},
+                    )
+                  : null,
             )
           : null,
       body: body,
-      bottomNavigationBar: showNavBar ? const NavBar() : null,
     );
   }
 }

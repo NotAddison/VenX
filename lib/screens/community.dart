@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/base.dart';
+import '../widgets/sub_base.dart';
 
 class Community extends StatefulWidget {
   const Community({super.key});
@@ -11,9 +11,11 @@ class Community extends StatefulWidget {
 class _CommunityState extends State<Community> {
   @override
   Widget build(BuildContext context) {
-    return const Base(
+    return Base(
       showNavBar: false,
-      body: Placeholder(),
+      body: SingleChildScrollView(
+        child: ListView(children: const []),
+      ),
       title: 'Community',
     );
   }
