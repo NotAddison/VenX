@@ -16,27 +16,50 @@ class _MachineViewState extends State<MachineView> {
   @override
   Widget build(BuildContext context) {
     return Base(
-      title: widget.machine.title,
-      showReturnButton: false,
+      showAppBar: false,
       body: Container(
           child: Padding(
         padding:
-            const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 30),
+            const EdgeInsets.only(top: 80, left: 30, right: 30, bottom: 30),
         child: Column(
           children: [
             // Preview
             MachinePreview(machine: widget.machine, isCard: true),
 
             // Spacer
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
 
             // Item stock List
             Expanded(
-              child: ListView.builder(
-                itemCount: widget.machine.stocks.length,
-                itemBuilder: (context, index) {
-                  return StockCard(stock: widget.machine.stocks[index]);
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.purple,
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.purple
+                    ],
+                    stops: [
+                      0.0,
+                      0.05,
+                      0.9,
+                      1.0
+                    ], // 10% purple, 80% transparent, 10% purple
+                  ).createShader(bounds);
                 },
+                blendMode: BlendMode.dstOut,
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  itemCount: widget.machine.stocks.length,
+                  itemBuilder: (context, index) {
+                    return StockCard(
+                        stock: widget.machine.stocks[index]
+                            as Map<String, dynamic>);
+                  },
+                ),
               ),
             ),
 
@@ -62,7 +85,10 @@ class _MachineViewState extends State<MachineView> {
                 const SizedBox(height: 10),
 
                 MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // transition pop
+                    Navigator.pop(context);
+                  },
                   minWidth: double.maxFinite,
                   height: 50,
                   shape: RoundedRectangleBorder(
