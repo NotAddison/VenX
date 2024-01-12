@@ -1,4 +1,5 @@
 {
     "editor.fontFamily": "Consolas, 'Courier New', monospace",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "disabled"
 }
