@@ -8,13 +8,13 @@ class PostCard extends StatelessWidget {
   final String date;
 
   const PostCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.body,
     required this.image,
     required this.author,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

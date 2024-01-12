@@ -28,7 +28,7 @@ class Base extends StatelessWidget {
           ? AppBar(
               title: Text(title),
               centerTitle: true,
-              leading: showReturnButton
+              leading: showReturnButton == true
                   ? IconButton(
                       icon: const Icon(CupertinoIcons.back),
                       onPressed: () => {Navigator.pop(context)},

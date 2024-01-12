@@ -10,7 +10,7 @@ import '../widgets/preview_machine.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
   double currentLat = 1.3764566939567504;
   double currentLong = 103.80547380680981;
   List<Marker> machinesMarkers = [];
+  var selectedMachine;
 
   @override
   void initState() {
@@ -63,6 +64,10 @@ class _HomeState extends State<Home> {
                   backgroundColor: const Color.fromARGB(255, 7, 105, 184),
                   textColor: Colors.white,
                   fontSize: 16.0);
+
+              setState(() {
+                selectedMachine = machines[i];
+              });
             },
             child: const Icon(Icons.food_bank_outlined),
           ),
@@ -113,23 +118,16 @@ class _HomeState extends State<Home> {
           ),
 
           // Preview machine
-          Positioned(
-            bottom: 100,
-            left: 20,
-            right: 20,
-            child: MachinePreview(
-              machine: Machine(
-                  distance: "1km",
-                  id: 1,
-                  image: "lol",
-                  address: "marina bay sands",
-                  location: [1.1625815042633, 104.22902200581069],
-                  stocks: [
-                    {"apple"}
-                  ],
-                  title: "Elephant"),
-            ),
-          ),
+          selectedMachine != null
+              ? Positioned(
+                  bottom: 100,
+                  left: 20,
+                  right: 20,
+                  child: MachinePreview(
+                    machine: selectedMachine,
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
