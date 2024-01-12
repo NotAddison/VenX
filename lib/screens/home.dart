@@ -7,7 +7,6 @@ import '../utils/tile_providers.dart';
 import '../utils/requests.dart';
 import '../models/machine_schema.dart';
 import '../widgets/preview_machine.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -56,15 +55,6 @@ class _HomeState extends State<Home> {
           point: LatLng(machines[i].location[0], machines[i].location[1]),
           child: GestureDetector(
             onTap: () {
-              Fluttertoast.showToast(
-                  msg: "${machines[i].title} clicked",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: const Color.fromARGB(255, 7, 105, 184),
-                  textColor: Colors.white,
-                  fontSize: 16.0);
-
               setState(() {
                 selectedMachine = machines[i];
               });
@@ -91,6 +81,16 @@ class _HomeState extends State<Home> {
         children: [
           FlutterMap(
             options: MapOptions(
+              onTap: (tapPosition, point) {
+                setState(() {
+                  selectedMachine = null;
+                });
+              },
+              onPointerDown: (event, point) {
+                setState(() {
+                  selectedMachine = null;
+                });
+              },
               initialCenter: LatLng(currentLat, currentLong),
               initialZoom: 13,
               maxZoom: 20,

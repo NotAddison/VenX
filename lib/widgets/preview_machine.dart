@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/machine_schema.dart';
 import '../screens/machine.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MachinePreview extends StatelessWidget {
   final Machine machine;
@@ -32,6 +33,7 @@ class MachinePreview extends StatelessWidget {
                 // Image
                 Container(
                     width: 150,
+                    padding: const EdgeInsets.all(15),
                     height: double.maxFinite,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
@@ -47,7 +49,11 @@ class MachinePreview extends StatelessWidget {
                       ],
                     ),
                     // Asset image (../../assets/icon/machine.png)
-                    child: Image.asset('icons/machine.png')),
+                    child: Column(
+                      children: [
+                        Expanded(child: Image.asset('assets/machine.png')),
+                      ],
+                    )),
 
                 // Space
                 const SizedBox(width: 10),
@@ -77,10 +83,15 @@ class MachinePreview extends StatelessWidget {
                                       onPressed: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MachineView(
-                                              machine: machine,
-                                            ),
+                                          PageTransition(
+                                            type: PageTransitionType.fade,
+                                            curve: Curves.linear,
+                                            duration: const Duration(
+                                                milliseconds: 300),
+                                            reverseDuration: const Duration(
+                                                milliseconds: 300),
+                                            child:
+                                                MachineView(machine: machine),
                                           ),
                                         );
                                       },
