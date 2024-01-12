@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'main_base.dart';
-
 // Custom widget (params = more child objs)
 
 class Base extends StatelessWidget {
@@ -34,6 +32,7 @@ class Base extends StatelessWidget {
                       onPressed: () => {Navigator.pop(context)},
                     )
                   : null,
+              scrolledUnderElevation: 0,
             )
           : null,
       body: body,

@@ -42,7 +42,7 @@ class PostCard extends StatelessWidget {
                   ImageWidget(image: image),
 
                   // Spacing
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
 
                   // Post content
                   Expanded(
@@ -78,7 +78,7 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // get max width and height
-      width: 150,
+      width: 80,
       height: 150,
 
       // image
@@ -117,7 +117,7 @@ class PostContentWidget extends StatelessWidget {
           title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 15,
           ),
         ),
 
