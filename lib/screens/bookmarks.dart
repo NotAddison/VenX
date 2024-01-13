@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/sub_base.dart';
+import '../widgets/preview_machine.dart';
+import '../utils/requests.dart';
 
 class Bookmarks extends StatefulWidget {
   const Bookmarks({super.key});
@@ -9,12 +11,86 @@ class Bookmarks extends StatefulWidget {
 }
 
 class _BookmarksState extends State<Bookmarks> {
+  late Future<List<Widget>> machinesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    machinesFuture = getFavorites().then((machines) {
+      return machines.map((machine) {
+        return MachinePreview(
+          machine: machine,
+          isCard: false,
+        );
+      }).toList();
+    });
+  }
+
+  Future<void> _refresh() async {
+    setState(() {
+      machinesFuture = getFavorites().then((machines) {
+        return machines.map((machine) {
+          return MachinePreview(
+            machine: machine,
+            isCard: false,
+            width: double.maxFinite,
+          );
+        }).toList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Base(
+    return Base(
       showNavBar: false,
-      body: Placeholder(),
-      title: 'Saved Machines',
+      title: "Bookmarks",
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder<List<Widget>>(
+          future: machinesFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Return a loading indicator while waiting for the data
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              // Return an error message if an error occurs
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // Return the list of widgets when the data is available
+              return SizedBox(
+                height: double.maxFinite,
+                child: SingleChildScrollView(
+                  clipBehavior: Clip.none,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      children: snapshot.data?.isNotEmpty ?? false
+                          ? snapshot.data!
+                          : <Widget>[
+                              // Center text
+                              const SizedBox(
+                                child: Center(
+                                  child: Text(
+                                    "An Empty Bookmark List...",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 }
