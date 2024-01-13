@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -6,15 +5,52 @@ import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class NFC extends StatefulWidget {
-  const NFC({super.key});
+  final Function callback;
+  final String initText;
+  final String initSubText;
+  final Icon initIcon;
+
+  final String successText;
+  final String successSubText;
+  final Icon successIcon;
+
+  final String failText;
+  final String failSubText;
+  final Icon failIcon;
+
+  NFC({
+    Key? key,
+    required this.callback,
+    this.initText = "Tap your food bank or credit card",
+    this.initSubText = "to reserve this item",
+    this.initIcon = const Icon(
+      Icons.nfc,
+      size: 100,
+      color: Colors.grey,
+    ),
+    this.successText = "",
+    this.successSubText = "Your item has been reserved successfully!",
+    this.successIcon = const Icon(
+      Icons.check_circle_outline,
+      size: 100,
+      color: Colors.green,
+    ),
+    this.failText = "Failed to read NFC tag",
+    this.failSubText = "Please try again",
+    this.failIcon = const Icon(
+      Icons.error_outline,
+      size: 100,
+      color: Colors.red,
+    ),
+  }) : super(key: key);
 
   @override
   State<NFC> createState() => _NFCState();
 }
 
 class _NFCState extends State<NFC> {
-  String displayText = 'Tap your food bank or credit card';
-  String subText = 'to reserve this item';
+  String displayText = '';
+  String subText = '';
   Icon popupIcon = const Icon(
     Icons.nfc,
     size: 100,
@@ -24,43 +60,56 @@ class _NFCState extends State<NFC> {
   @override
   void initState() {
     super.initState();
+    displayText = widget.initText;
+    subText = widget.initSubText;
+    popupIcon = widget.initIcon;
     initNFC();
   }
 
   Future<void> initNFC() async {
-    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-      String decodedText = decodeNFCData(tag.data);
+    try {
+      NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+        String decodedText = decodeNFCData(tag.data);
 
-      // If fail
-      if (decodedText == 'Unknown') {
-        setState(() {
-          displayText = 'Failed to read NFC tag';
-          subText = 'Please try again';
-          popupIcon = const Icon(
-            Icons.error_outline,
-            size: 100,
-            color: Colors.red,
+        // If fail
+        if (decodedText == 'Unknown') {
+          updateStateOnCallback(
+            widget.failText,
+            widget.failSubText,
+            widget.failIcon,
           );
-        });
-      } else {
-        setState(() {
-          displayText = 'Hello, $decodedText';
-          subText = 'Your item has been reserved sucessfully!';
-          popupIcon = const Icon(
-            Icons.check_circle_outline,
-            size: 100,
-            color: Colors.green,
+        } else {
+          updateStateOnCallback(
+            'Hello, $decodedText',
+            widget.successSubText,
+            widget.successIcon,
           );
-        });
-      }
-      // Wait for 5 seconds
-      await Future.delayed(const Duration(seconds: 3));
+        }
 
-      // check if still mounted, if it is pop the page
-      if (mounted && Navigator.canPop(context)) {
-        Navigator.pop(context);
-      }
-    });
+        // Wait for 3 seconds
+        await Future.delayed(const Duration(seconds: 2));
+
+        widget.callback(status: decodedText != 'Unknown');
+
+        // check if still mounted, if it is pop the page
+        if (mounted && Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void updateStateOnCallback(
+      String newDisplayText, String newSubText, Icon newIcon) {
+    if (mounted) {
+      setState(() {
+        displayText = newDisplayText;
+        subText = newSubText;
+        popupIcon = newIcon;
+      });
+    }
   }
 
   String decodeNFCData(Map<String, dynamic> nfcData) {

@@ -1,12 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart  ';
+import 'package:venx/models/machine_schema.dart';
+import 'package:venx/widgets/modal.dart';
 import 'nfc.dart';
+import '../utils/requests.dart';
 
-class StockCard extends StatelessWidget {
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+class StockCard extends StatefulWidget {
   final Map<String, dynamic> stock;
+  final Machine machine;
 
-  const StockCard({Key? key, required this.stock}) : super(key: key);
+  const StockCard({super.key, required this.stock, required this.machine});
+
+  @override
+  State<StockCard> createState() => _StockCardState();
+}
+
+class _StockCardState extends State<StockCard> {
+  void reserveItem({status = false}) {
+    if (status) {
+      showModal(
+          context,
+          "Item Reserved!",
+          "You have successfully reserved ${widget.stock['name']}!",
+          const Icon(Icons.check, color: Colors.green));
+    } else {
+      showModal(context, "Failed to Reserve Item!", "Please try again!",
+          const Icon(Icons.error, color: Colors.red));
+    }
+
+    print(widget.machine.id);
+
+    // Update stock
+    updateStock(
+      machineId: widget.machine.id,
+      name: widget.stock['name'],
+      qty: widget.stock['qty'] - 1,
+    );
+
+    // Force page refresh
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +81,8 @@ class StockCard extends StatelessWidget {
                   color: const Color.fromARGB(255, 255, 255, 255),
                 ),
                 child: Image.network(
-                  stock['image'] ??
-                      'https://picsum.photos/250?image=${stock['qty'] ?? 0}',
+                  widget.stock['image'] ??
+                      'https://picsum.photos/250?image=${widget.stock['qty'] ?? 0}',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -61,7 +97,7 @@ class StockCard extends StatelessWidget {
                   children: [
                     // Title
                     Text(
-                      "${stock['name']} | ${stock['qty']}",
+                      "${widget.stock['name']}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -71,12 +107,45 @@ class StockCard extends StatelessWidget {
                     // Spacing
                     const SizedBox(height: 5),
 
+                    // Quantity
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.inventory_2_outlined,
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 3),
+                        const Text(":"),
+                        const SizedBox(width: 3),
+                        Text(
+                          widget.stock['qty'].toString(),
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+
                     // Price
-                    Text(
-                      "\$${stock['price'].toString()}",
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.attach_money_outlined,
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 3),
+                        const Text(":"),
+                        const SizedBox(width: 3),
+                        Text(
+                          // 2 dp
+                          "\$${widget.stock['price'].toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -94,7 +163,7 @@ class StockCard extends StatelessWidget {
                 children: [
                   // Body
                   Text(
-                    stock['description'] ?? "No Facts Avaliable",
+                    widget.stock['description'] ?? "No Facts Avaliable",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: const TextStyle(
@@ -108,12 +177,35 @@ class StockCard extends StatelessWidget {
                   // Button
                   MaterialButton(
                     onPressed: () {
+                      // Check if stock is available
+                      if (widget.stock['qty'] == 0) {
+                        showModal(
+                            context,
+                            "Item Unavaliable!",
+                            "Sorry, ${widget.stock['name']} is out of stock!",
+                            const Icon(Icons.error, color: Colors.red));
+                        return;
+                      }
+
+                      // Check if platform is not mobile
+                      if (!!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+                        showModal(
+                            context,
+                            "Unsupported Platform!",
+                            "Sorry, this feature is not avaliable on mobile!",
+                            const Icon(Icons.error, color: Colors.red));
+
+                        return;
+                      }
+
                       // transition to nfc page
                       Navigator.push(
                         context,
                         PageTransition(
                           type: PageTransitionType.fade,
-                          child: NFC(),
+                          child: NFC(
+                            callback: reserveItem,
+                          ),
                         ),
                       );
                     },

@@ -3,6 +3,8 @@ import '../models/machine_schema.dart';
 import '../widgets/sub_base.dart';
 import '../widgets/preview_machine.dart';
 import '../widgets/card_stock.dart';
+import '../screens/ai_chat.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MachineView extends StatefulWidget {
   final Machine machine;
@@ -17,8 +19,7 @@ class _MachineViewState extends State<MachineView> {
   Widget build(BuildContext context) {
     return Base(
       showAppBar: false,
-      body: Container(
-          child: Padding(
+      body: Padding(
         padding:
             const EdgeInsets.only(top: 80, left: 30, right: 30, bottom: 30),
         child: Column(
@@ -56,8 +57,10 @@ class _MachineViewState extends State<MachineView> {
                   itemCount: widget.machine.stocks.length,
                   itemBuilder: (context, index) {
                     return StockCard(
-                        stock: widget.machine.stocks[index]
-                            as Map<String, dynamic>);
+                      stock:
+                          widget.machine.stocks[index] as Map<String, dynamic>,
+                      machine: widget.machine,
+                    );
                   },
                 ),
               ),
@@ -71,14 +74,23 @@ class _MachineViewState extends State<MachineView> {
               children: [
                 // Button
                 MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // transition push
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.fade,
+                        child: const AIChat(),
+                      ),
+                    );
+                  },
                   minWidth: double.maxFinite,
                   height: 50,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  child: const Text("Dietrition / AI Nutritionist"),
+                  color: const Color.fromARGB(255, 247, 247, 247),
+                  child: const Text("Ask AI"),
                 ),
 
                 // Spacer
@@ -94,14 +106,14 @@ class _MachineViewState extends State<MachineView> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  color: const Color.fromARGB(255, 255, 255, 255),
+                  color: const Color.fromARGB(255, 247, 247, 247),
                   child: const Text("Return"),
                 )
               ],
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }

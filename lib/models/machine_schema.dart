@@ -1,9 +1,9 @@
 class Machine {
   final int id;
   String? distance;
-  final String image, title, address;
-  final List<double> location; // lat, long
-  final List<Object> stocks;
+  String image, title, address;
+  List<double> location; // lat, long
+  List<dynamic> stocks;
 
   Machine({
     required this.id,
