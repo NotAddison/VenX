@@ -1,12 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:venx/widgets/modal.dart';
 import '../utils/permissions.dart';
 import '../utils/tile_providers.dart';
 import '../utils/requests.dart';
 import '../models/machine_schema.dart';
 import '../widgets/preview_machine.dart';
+import 'dart:io' show Platform;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,6 +22,7 @@ class _HomeState extends State<Home> {
   double currentLat = 1.3764566939567504;
   double currentLong = 103.80547380680981;
   List<Marker> machinesMarkers = [];
+  // ignore: prefer_typing_uninitialized_variables
   var selectedMachine;
 
   @override
@@ -54,15 +58,16 @@ class _HomeState extends State<Home> {
         Marker(
           point: LatLng(machines[i].location[0], machines[i].location[1]),
           child: GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedMachine = machines[i];
-              });
-            },
-            child: const Icon(Icons.food_bank_outlined),
-          ),
-          width: 20,
-          height: 20,
+              onTap: () {
+                setState(() {
+                  selectedMachine = machines[i];
+                });
+              },
+              child: Image.asset(
+                "assets/machine.png",
+              )),
+          width: 30,
+          height: 30,
         ),
       );
     }
@@ -107,7 +112,7 @@ class _HomeState extends State<Home> {
                 markers: [
                   Marker(
                     point: LatLng(currentLat, currentLong),
-                    child: const Icon(Icons.man_2_outlined),
+                    child: const Icon(Icons.location_searching_outlined),
                     width: 10,
                     height: 10,
                   ),
@@ -123,10 +128,14 @@ class _HomeState extends State<Home> {
                   bottom: 100,
                   left: 20,
                   right: 20,
-                  child: MachinePreview(
-                    machine: selectedMachine,
-                  ),
-                )
+                  child: Container(
+                    width: double.maxFinite,
+                    alignment: Alignment.center,
+                    child: MachinePreview(
+                      width: kIsWeb ? 500 : double.maxFinite,
+                      machine: selectedMachine,
+                    ),
+                  ))
               : Container(),
         ],
       ),
