@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import '../models/post_schema.dart';
+import '../widgets/full_post.dart';
+import 'package:page_transition/page_transition.dart';
 
-class PostCard extends StatelessWidget {
-  final String title;
-  final String body;
-  final String image;
-  final String author;
-  final String date;
+// ignore: must_be_immutable
+class PostCard extends StatefulWidget {
+  String title;
+  String body;
+  String image;
+  String author;
+  String date;
 
-  const PostCard({
+  PostCard({
     super.key,
     required this.title,
     required this.body,
@@ -16,6 +20,11 @@ class PostCard extends StatelessWidget {
     required this.date,
   });
 
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     const iconSize = 20.0;
@@ -32,14 +41,28 @@ class PostCard extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(10),
             onTap: () {
-              print('Card tapped.');
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  child: FullPost(
+                    post: Post(
+                      title: widget.title,
+                      body: widget.body,
+                      image: widget.image,
+                      author: widget.author,
+                      date: widget.date,
+                    ),
+                  ),
+                ),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: <Widget>[
                   // Image
-                  ImageWidget(image: image),
+                  ImageWidget(image: widget.image),
 
                   // Spacing
                   const SizedBox(width: 15),
@@ -47,10 +70,10 @@ class PostCard extends StatelessWidget {
                   // Post content
                   Expanded(
                     child: PostContentWidget(
-                      title: title,
-                      body: body,
-                      author: author,
-                      date: date,
+                      title: widget.title,
+                      body: widget.body,
+                      author: widget.author,
+                      date: widget.date,
                     ),
                   ),
 
