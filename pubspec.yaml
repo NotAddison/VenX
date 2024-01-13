@@ -46,7 +46,8 @@ dependencies:
   page_transition: ^2.1.0
   geolocator: ^10.1.0
   nfc_manager: ^3.3.0
-  aub_ai: ^1.0.3
+  flutter_chat_ui: ^1.6.10
+  flutter_displaymode: ^0.6.0
 
 dev_dependencies:
   flutter_test:

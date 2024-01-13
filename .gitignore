@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# AI Model asset
+*.gguf
+
 # IntelliJ related
 *.iml
 *.ipr
