@@ -138,7 +138,7 @@ List sampleMachines = [
   {
     'id': 2,
     'image': 'Placeholder',
-    'title': 'Pheonix',
+    'title': 'Shark',
     'address': '11 Lor 3 Toa Payoh, Block D 01-42, Singapore 319579',
     'location': [1.3367956795714648, 103.84942359664112],
     'distance': null,
@@ -156,7 +156,7 @@ List sampleMachines = [
   {
     'id': 4,
     'image': 'Placeholder',
-    'title': 'Add',
+    'title': 'Fish',
     'address': '570 Hougang St 51, Singapore 530570',
     'location': [1.3811643596381038, 103.88974611769578],
     'distance': null,
@@ -165,7 +165,7 @@ List sampleMachines = [
   {
     'id': 5,
     'image': 'Placeholder',
-    'title': 'Wolf',
+    'title': 'Okami',
     'address': '9 Toh Yi Dr, Singapore 590009',
     'location': [1.3384951786570325, 103.77347409840742],
     'distance': null,
@@ -174,7 +174,7 @@ List sampleMachines = [
   {
     'id': 6,
     'image': 'Placeholder',
-    'title': 'Fubuki',
+    'title': 'Kitsune',
     'address': '308 Woodlands Ave 1, Singapore 730308',
     'location': [1.429804924836768, 103.77646612390481],
     'distance': null,

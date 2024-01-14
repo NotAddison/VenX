@@ -66,6 +66,7 @@ class _BookmarksState extends State<Bookmarks> {
               return SizedBox(
                 height: double.maxFinite,
                 child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 40),
                   clipBehavior: Clip.none,
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
