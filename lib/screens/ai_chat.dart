@@ -25,17 +25,26 @@ class _AIChatState extends State<AIChat> {
   final List<types.Message> _messages = [];
   final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
   final _ai = const types.User(id: 'e7c8f8c8-1c1f-4f1d-8c4e-7d9b9c5d8c9c');
+  bool _isMounted = false;
 
   // Add initial message
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
 
     // DEMO PURPOSES : DEMO MESSAGES
     populateChat();
   }
 
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
+  }
+
   void populateChat() async {
+    if (!_isMounted) return;
     setState(() {
       _messages.insert(
           0,
@@ -43,12 +52,13 @@ class _AIChatState extends State<AIChat> {
             author: _user,
             createdAt: DateTime.now().millisecondsSinceEpoch,
             id: randomString(),
-            text: 'What can I make using the ingredients I have reserved?',
+            text: 'What can I make with the ingredients I reserved?',
           ));
     });
 
     // Delay for 1 second
     await Future.delayed(const Duration(seconds: 3));
+    if (!_isMounted) return;
 
     setState(() {
       _messages.insert(
@@ -57,12 +67,17 @@ class _AIChatState extends State<AIChat> {
               author: _ai,
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: randomString(),
-              text:
-                  "Based on your recent reservations, you have reserved the following: \n - 1 Lettuce\n - 1 Cucumber\n"));
+              text: """These are the items that you have recently reserved: \n 
+- 1 Brown Rice\n 
+- 1 Dried Chickpea\n
+- 1 Tomato Sauce\n
+- 1 Canned Salmon\n
+                  """));
     });
 
     // Delay for 1 second
     await Future.delayed(const Duration(seconds: 5));
+    if (!_isMounted) return;
 
     setState(() {
       _messages.insert(
@@ -72,11 +87,33 @@ class _AIChatState extends State<AIChat> {
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: randomString(),
               text:
-                  "Using the machine's auto cooking machine, you can request the following dishes to be made: \n - 1 Salad\n - 1 Cucumber Salad\n - 1 Cucumber Soup\n - 1 Cucumber Juice\n - 1 Lettuce Salad\n - 1 Lettuce Soup\n - 1 Lettuce Juice\n"));
+                  """Using the machine's auto cooking machine, you can request the following dishes to be made: \n 
+- Brown Rice with Dried Chickpea\n
+- Brown Rice with Tomato Sauce\n
+- Brown Rice with Canned Salmon\n
+- Dried Chickpea with Tomato Sauce\n
+- Dried Chickpea with Canned Salmon\n
+- Tomato Sauce with Canned Salmon\n
+                  """));
     });
 
     // Delay for 1 second
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 5));
+    if (!_isMounted) return;
+
+    setState(() {
+      _messages.insert(
+          0,
+          types.TextMessage(
+              author: _user,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: randomString(),
+              text:
+                  "I think I would like to have the Brown Rice with Canned Salmon"));
+    });
+
+    await Future.delayed(const Duration(seconds: 8));
+    if (!_isMounted) return;
 
     setState(() {
       _messages.insert(
@@ -85,11 +122,79 @@ class _AIChatState extends State<AIChat> {
               author: _ai,
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: randomString(),
-              text: ""));
+              text: """That's a great choice!
+here are approximate nutrition facts for a meal of brown rice with canned salmon, based on standard serving sizes:
+
+=== Brown Rice ===
+
+Serving Size: 1 cup cooked
+Calories: 215
+Total Fat: 1.6g
+Saturated Fat: 0.3g
+Cholesterol: 0mg
+Sodium: 10mg
+Total Carbohydrates: 45g
+Dietary Fiber: 3.5g
+Sugars: 0.7g
+Protein: 5g
+
+=== Canned Salmon ===
+
+Serving Size: 3 ounces (85g)
+Calories: 120
+Total Fat: 5g
+Saturated Fat: 1g
+Omega-3 Fatty Acids: 1.4g
+Cholesterol: 40mg
+Sodium: 360mg
+Total Carbohydrates: 0g
+Protein: 17g
+                  """));
+    });
+
+    await Future.delayed(const Duration(seconds: 8));
+    if (!_isMounted) return;
+
+    setState(() {
+      _messages.insert(
+          0,
+          types.TextMessage(
+              author: _ai,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: randomString(),
+              text:
+                  "It seems that you are 1.5km away (15 minutes) from the machine. \n\nWould you like me to start preparing the dish?"));
+    });
+
+    await Future.delayed(const Duration(seconds: 5));
+    if (!_isMounted) return;
+
+    setState(() {
+      _messages.insert(
+          0,
+          types.TextMessage(
+              author: _user,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: randomString(),
+              text: "Yes, please start preparing the dish."));
+    });
+
+    await Future.delayed(const Duration(seconds: 5));
+    if (!_isMounted) return;
+
+    setState(() {
+      _messages.insert(
+          0,
+          types.TextMessage(
+              author: _ai,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: randomString(),
+              text: "I will notify you when the dish is ready :)"));
     });
   }
 
   void _handleSendPressed(types.PartialText message) {
+    if (!_isMounted) return;
     // Notify Demo
     print('Sending message: ${message.text}');
     showModal(
@@ -112,6 +217,7 @@ class _AIChatState extends State<AIChat> {
   }
 
   Future<void> promptAI(String message) async {
+    if (!_isMounted) return;
     print('Prompting AI...');
 
     // Get the response from the AI
@@ -127,6 +233,7 @@ class _AIChatState extends State<AIChat> {
   }
 
   void _addMessage(types.Message message) {
+    if (!_isMounted) return;
     setState(() {
       _messages.insert(0, message);
     });
