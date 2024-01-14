@@ -57,8 +57,7 @@ class _MachineViewState extends State<MachineView> {
                   itemCount: widget.machine.stocks.length,
                   itemBuilder: (context, index) {
                     return StockCard(
-                      stock:
-                          widget.machine.stocks[index] as Map<String, dynamic>,
+                      stock: widget.machine.stocks[index],
                       machine: widget.machine,
                     );
                   },

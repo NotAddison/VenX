@@ -18,9 +18,12 @@ class _BookmarksState extends State<Bookmarks> {
     super.initState();
     machinesFuture = getFavorites().then((machines) {
       return machines.map((machine) {
-        return MachinePreview(
-          machine: machine,
-          isCard: false,
+        return Container(
+          margin: const EdgeInsets.only(bottom: 30),
+          child: MachinePreview(
+            machine: machine,
+            isCard: false,
+          ),
         );
       }).toList();
     });
@@ -30,10 +33,12 @@ class _BookmarksState extends State<Bookmarks> {
     setState(() {
       machinesFuture = getFavorites().then((machines) {
         return machines.map((machine) {
-          return MachinePreview(
-            machine: machine,
-            isCard: false,
-            width: double.maxFinite,
+          return Container(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: MachinePreview(
+              machine: machine,
+              isCard: false,
+            ),
           );
         }).toList();
       });
@@ -64,7 +69,7 @@ class _BookmarksState extends State<Bookmarks> {
                   clipBehavior: Clip.none,
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: snapshot.data?.isNotEmpty ?? false
                           ? snapshot.data!
