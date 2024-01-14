@@ -9,7 +9,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class StockCard extends StatefulWidget {
-  final Map<String, dynamic> stock;
+  final Map<dynamic, dynamic> stock;
   final Machine machine;
 
   const StockCard({super.key, required this.stock, required this.machine});
@@ -80,11 +80,10 @@ class _StockCardState extends State<StockCard> {
                   borderRadius: BorderRadius.circular(15),
                   color: const Color.fromARGB(255, 255, 255, 255),
                 ),
-                child: Image.network(
-                  widget.stock['image'] ??
-                      'https://picsum.photos/250?image=${widget.stock['qty'] ?? 0}',
-                  fit: BoxFit.cover,
-                ),
+                child: widget.stock['image'] == null
+                    ? const Icon(Icons.image_not_supported_outlined)
+                    : Image.asset("assets/images/${widget.stock['image']}",
+                        fit: BoxFit.cover),
               ),
 
               // Spacing

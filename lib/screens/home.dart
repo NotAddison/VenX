@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                 });
               },
               child: Image.asset(
-                "assets/machine.png",
+                "assets/images/machine.png",
               )),
           width: 30,
           height: 30,

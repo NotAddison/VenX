@@ -61,6 +61,7 @@ List samplePosts = [
 List<dynamic> stock = [
   {
     'name': 'Brown Rice',
+    'image': 'brown_rice.png',
     'price': 1.50,
     'qty': 20,
     'description':
@@ -68,13 +69,15 @@ List<dynamic> stock = [
   },
   {
     'name': 'Lentils',
-    'price': 1.20,
+    'image': 'lentils.png',
+    'price': 2.00,
     'qty': 15,
     'description':
         "Excellent source of plant-based protein, essential for muscle repair and overall health."
   },
   {
     'name': 'Quinoa',
+    'image': 'quinoa.png',
     'price': 2.00,
     'qty': 10,
     'description':
@@ -82,20 +85,15 @@ List<dynamic> stock = [
   },
   {
     'name': 'Oats',
+    'image': 'oats.png',
     'price': 1.80,
     'qty': 8,
     'description':
         "Rich in beta-glucans, supporting heart health and maintaining cholesterol levels."
   },
   {
-    'name': 'Whole Wheat Pasta',
-    'price': 2.50,
-    'qty': 12,
-    'description':
-        "High in complex carbohydrates for sustained energy during physical activities."
-  },
-  {
     'name': 'Dried Chickpeas',
+    'image': 'chickpeas.png',
     'price': 1.50,
     'qty': 18,
     'description':
@@ -103,20 +101,23 @@ List<dynamic> stock = [
   },
   {
     'name': 'Tomato Sauce',
-    'price': 2.00,
+    'image': 'tomato.png',
+    'price': 1.00,
     'qty': 15,
     'description':
         "Contains lycopene, a powerful antioxidant with potential health benefits."
   },
   {
     'name': 'Mixed Vegetables',
-    'price': 1.20,
+    'image': 'mixed_vegetables.png',
+    'price': 1.00,
     'qty': 10,
     'description':
         "Diverse vitamins and minerals for immune support and overall well-being."
   },
   {
     'name': 'Canned Salmon',
+    'image': 'salmon.png',
     'price': 3.00,
     'qty': 12,
     'description':
@@ -132,72 +133,95 @@ List sampleMachines = [
     'address': '69 Redhill Cl, Singapore 150069',
     'location': [1.287216811317267, 103.81646122232127],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 2,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Pheonix',
+    'address': '11 Lor 3 Toa Payoh, Block D 01-42, Singapore 319579',
+    'location': [1.3367956795714648, 103.84942359664112],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 3,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Lion',
+    'address': '3D Upper Boon Keng Rd, Singapore 384003',
+    'location': [1.3135303600362163, 103.87278147510393],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 4,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Add',
+    'address': '570 Hougang St 51, Singapore 530570',
+    'location': [1.3811643596381038, 103.88974611769578],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 5,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Wolf',
+    'address': '9 Toh Yi Dr, Singapore 590009',
+    'location': [1.3384951786570325, 103.77347409840742],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 6,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Fubuki',
+    'address': '308 Woodlands Ave 1, Singapore 730308',
+    'location': [1.429804924836768, 103.77646612390481],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 7,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Hashimoto Nagasaki',
+    'address': '132 Yishun Street 11, Singapore 760132',
+    'location': [1.4335441271092835, 103.83149945419166],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
   {
     'id': 8,
     'image': 'Placeholder',
-    'title': 'Elephant',
-    'address': '69 Redhill Cl, Singapore 150069',
-    'location': [1.287216811317267, 103.81646122232127],
+    'title': 'Nagi',
+    'address': '308 Jurong East Street 32, Singapore 600308',
+    'location': [1.347479155351851, 103.73464003673377],
     'distance': null,
-    'stocks': stock,
+    'stocks': cloneStockList(stock),
   },
+  {
+    'id': 9,
+    'image': 'Placeholder',
+    'title': 'Kagi',
+    'address': '450F Tampines Street 42, Singapore 526450',
+    'location': [1.3576468579408312, 103.95303008918617],
+    'distance': null,
+    'stocks': cloneStockList(stock),
+  },
+  // {
+  //   'id': 10,
+  //   'image': 'Placeholder',
+  //   'title': 'Hashi',
+  //   'address': '472 Jurong West Street 41, Singapore 640472',
+  //   'location': [1.348165258454928, 103.72234511026434],
+  //   'distance': null,
+  //   'stocks': stock,
+  // },
 ];
+
+List<dynamic> cloneStockList(List<dynamic> originalStock) {
+  // Function to create a deep copy of the stock list
+  return originalStock.map((stockItem) => Map.from(stockItem)).toList();
+}
 
 // ignore: non_constant_identifier_names
 List<Machine> MACHINES_CACHE = [];

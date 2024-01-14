@@ -42,7 +42,7 @@ class _MachinePreviewState extends State<MachinePreview> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
-      height: 200,
+      height: 220,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: Colors.white,
@@ -81,7 +81,8 @@ class _MachinePreviewState extends State<MachinePreview> {
                     // Asset image (../../assets/icon/machine.png)
                     child: Column(
                       children: [
-                        Expanded(child: Image.asset('assets/machine.png')),
+                        Expanded(
+                            child: Image.asset('assets/images/machine.png')),
                       ],
                     )),
 
