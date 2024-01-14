@@ -1,7 +1,7 @@
 # VenX
 ProID - Solar Vending Machine App
+> Web deployment Branch
 
-### Dependencies
-- [`shared_preferences: (^2.2.2)`](https://pub.dev/packages/shared_preferences)
-- [`http: (^1.1.2)`](https://pub.dev/packages/http)
-- [`flutter_map: (^6.1.0)`](https://pub.dev/packages/flutter_map)
+Note:
+This branch is used for web deployment for github pages.
+The main branch is `main`.
